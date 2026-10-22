@@ -1,0 +1,646 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   DÉPANNAGE 42 — JETONS DE DESIGN
+   Aucune valeur de couleur, de police, de durée ou de rayon ne doit être
+   écrite en dur dans un composant. Tout passe par ces variables.
+
+   Palette dérivée du logo existant (camion plateau blanc sur bleu nuit) et
+   des gyrophares ambre visibles sur la photo réelle de la flotte.
+   Le rouge #e60000 de l'ancien site est abandonné : générique « garage ».
+   ========================================================================== */
+
+@theme {
+  /* --- Fonds -------------------------------------------------------------
+     Bleu nuit, pas un noir neutre : la teinte vient du logo, et un fond
+     légèrement bleuté donne de la profondeur là où un gris neutre aplatit. */
+  --color-nuit: #070c14;
+  --color-asphalte: #0c1420;
+  --color-acier: #121d2c;
+  --color-acier-clair: #182537;
+  --color-trait: #23344a;
+  --color-trait-vif: #36506e;
+  /* Repères chiffrés : 3,4:1 sur le fond, donc conforme AA en grand corps
+     tout en restant en retrait des titres. */
+  --color-repere: #52739a;
+
+  /* --- Texte ------------------------------------------------------------- */
+  --color-clair: #f3f7fb;
+  --color-doux: #a6bace;
+  --color-sourd: #6e8399;
+
+  /* --- Action : l'ambre du gyrophare ---------------------------------------
+     Plus chaud et plus saturé que l'orange précédent. Réservé strictement aux
+     appels à l'action : si l'ambre sert aussi à décorer, le bouton d'appel ne
+     se détache plus de rien. */
+  --color-ambre: #ff8400;
+  --color-ambre-clair: #ffa83d;
+  --color-ambre-sombre: #d96d00;
+
+  /* --- Signal : le jaune haute visibilité -----------------------------------
+     C'est la couleur du gilet porté sur la photo du client, et celle du
+     secours routier en général. Elle ne sert jamais de bouton : elle marque,
+     elle souligne, elle signale ce qui est vivant. Deux accents coexistent
+     donc, mais avec des rôles qui ne se recouvrent pas. */
+  --color-hivis: #d8ff33;
+  --color-hivis-sourd: #a8c926;
+
+  /* --- Typographie ------------------------------------------------------- */
+  --font-titre: var(--font-archivo), "Arial Narrow", system-ui, sans-serif;
+  --font-texte: var(--font-geist), system-ui, -apple-system, sans-serif;
+
+  /* --- Mouvement ---------------------------------------------------------
+     Transitions d'interface : 150 à 250 ms.
+     Séquence d'entrée du hero : 600 à 900 ms.
+     Une seule courbe, sortante, pour tout le site.                          */
+  --ease-sortie: cubic-bezier(0.16, 1, 0.3, 1);
+  --duree-ui: 190ms;
+  --duree-ui-lente: 240ms;
+  --duree-hero: 720ms;
+
+  /* --- Rayons -------------------------------------------------------------
+     Volontairement variés : plus serré sur les éléments internes, plus doux
+     sur les conteneurs. Un rayon unique partout est une signature de gabarit. */
+  --radius-net: 2px;
+  --radius-doux: 6px;
+  --radius-bloc: 14px;
+  --radius-plein: 999px;
+
+  /* --- Ombres teintées ----------------------------------------------------
+     Jamais de noir pur : l'ombre porte la teinte du fond, sinon elle se voit
+     comme un calque étranger posé sur la page. */
+  --ombre-posee: 0 18px 44px -16px rgba(4, 10, 18, 0.9);
+  --ombre-levee: 0 34px 80px -28px rgba(4, 10, 18, 0.95);
+  --ombre-ambre: 0 14px 38px -12px rgba(255, 154, 31, 0.38);
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+  /* Hauteur réelle de la barre d'appel collante sur mobile, utilisée pour
+     réserver l'espace en bas de page et ne jamais masquer de contenu. */
+  --h-barre-appel: 0px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --h-barre-appel: 68px;
+  }
+}
+
+/* Les réinitialisations d'éléments DOIVENT vivre dans @layer base.
+   Sans couche, elles l'emporteraient sur les utilitaires Tailwind : en
+   cascade CSS, du style non-layeré bat toujours du style layeré, quelle que
+   soit la spécificité. Un simple `img { height: auto }` écrit ici hors
+   couche annulait toutes les hauteurs d'image du site. */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Décalage des ancres pour passer sous l'en-tête collant */
+    scroll-padding-top: 88px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-nuit);
+    color: var(--color-clair);
+    font-family: var(--font-texte);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    /* Garde-fou : aucune section ne doit pousser la page latéralement */
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-titre);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  p {
+    text-wrap: pretty;
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  img,
+  svg,
+  video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+/* ==========================================================================
+   ÉCHELLE TYPOGRAPHIQUE
+   Les titres manquaient de présence : 2 rem pour un titre de section sur un
+   écran de 1440 px, c'est la taille d'un sous-titre. On monte, on resserre
+   l'approche, et on pousse la graisse. Le display n'est pas là pour informer,
+   il est là pour imposer un rythme.
+   ========================================================================== */
+
+@layer base {
+  h1 {
+    font-weight: 800;
+    letter-spacing: -0.035em;
+  }
+
+  h2 {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  h3 {
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+}
+
+/* Mesure de lecture : au-delà d'environ 68 caractères, l'œil perd la ligne. */
+.mesure {
+  max-width: 34rem;
+}
+
+.mesure-large {
+  max-width: 42rem;
+}
+
+/* ==========================================================================
+   TEXTURE ET LUMIÈRE
+   Deux calques, tous deux non interactifs et sans coût réseau, qui suppriment
+   la planéité numérique :
+
+   1. Le grain. Un bruit fractal en SVG inline, fixé au viewport. C'est ce qui
+      fait qu'une surface sombre ressemble à une matière plutôt qu'à un aplat.
+   2. La lumière ambiante. Des halos radiaux ambre très faibles, posés aux
+      endroits qui comptent (le hero, l'appel final), comme la lueur d'un
+      gyrophare sur du bitume mouillé. Jamais un dégradé linéaire uniforme.
+   ========================================================================== */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23b)'/%3E%3C/svg%3E");
+}
+
+/* Halo ambre. Posé en ::before sur une section, il reste derrière le contenu. */
+.lueur::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  inset: -20% -10% auto -10%;
+  height: 120%;
+  background: radial-gradient(
+    60% 50% at var(--lueur-x, 50%) var(--lueur-y, 0%),
+    rgba(255, 154, 31, 0.16),
+    rgba(255, 154, 31, 0.06) 40%,
+    transparent 70%
+  );
+}
+
+/* Arête lumineuse en haut d'une surface : une seule ligne de 1 px qui suffit
+   à détacher un bloc du fond, là où une bordure complète alourdirait. */
+.arete::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 154, 31, 0.55),
+    transparent
+  );
+}
+
+/* ==========================================================================
+   ACCESSIBILITÉ
+   Un focus visible et identique partout, qui ne dépend jamais de la couleur
+   seule : contour ambre + décalage, visible sur tous les fonds du site.
+   ========================================================================== */
+
+:focus-visible {
+  outline: 3px solid var(--color-ambre);
+  outline-offset: 3px;
+  border-radius: var(--radius-net);
+}
+
+/* Le focus par clic souris ne doit pas dessiner de contour */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.saut-contenu {
+  position: absolute;
+  left: 1rem;
+  top: 0.75rem;
+  z-index: 100;
+  padding: 0.65rem 1.1rem;
+  background: var(--color-ambre);
+  color: var(--color-nuit);
+  font-weight: 700;
+  border-radius: var(--radius-doux);
+  transform: translateY(-160%);
+  transition: transform var(--duree-ui) var(--ease-sortie);
+}
+
+.saut-contenu:focus-visible {
+  transform: translateY(0);
+}
+
+.lecteur-ecran {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   BANDEAU DE CONSENTEMENT
+   Rendu dans le HTML initial, masqué uniquement si un choix est déjà
+   enregistré. La classe est posée par un script du <head>, avant la première
+   peinture, donc sans clignotement.
+   ========================================================================== */
+
+html.consent-decide .bandeau-consentement {
+  display: none;
+}
+
+/* ==========================================================================
+   LA SCÈNE : LA ROUTE EN PERSPECTIVE
+   De la vraie 3D, en transformations CSS plutôt qu'en WebGL. Un plan incliné
+   par rotateX dans un conteneur en perspective produit une route qui fuit
+   vers l'horizon ; les marquages au sol défilent vers le spectateur.
+
+   Pourquoi pas Three.js : une scène WebGL coûterait entre 150 et 200 Ko
+   compressés et un contexte GPU permanent, sur un site dont le visiteur type
+   est au bord d'une route avec un réseau médiocre. Ici tout est composé par
+   le compositeur graphique, sans une ligne de JavaScript.
+   ========================================================================== */
+
+/* Le point de fuite est placé À HAUTEUR D'HORIZON, pas en haut du cadre.
+   Avec perspective-origin à 0 %, les fuyantes partaient du sommet de la
+   section et la route se lisait comme des diagonales sans objet. */
+.scene {
+  perspective: 420px;
+  perspective-origin: 50% 46%;
+  transform-style: preserve-3d;
+}
+
+/* Le plan du sol.
+   Une GRILLE, et non deux rives isolées. Deux lignes fuyantes dans le vide se
+   lisent comme des diagonales accidentelles ; une grille régulière est le
+   signal de perspective le plus immédiat qui soit, parce que l'œil voit à la
+   fois la convergence des fuyantes et le resserrement des transversales.
+
+   Le plan part de la ligne d'horizon et dépasse largement le bas et les côtés
+   du cadre : un sol qui s'arrête dans le viewport n'est plus un sol. */
+.route {
+  position: absolute;
+  inset: 46% -60% -90% -60%;
+  transform-origin: 50% 0;
+  transform: rotateX(85deg);
+  background-image:
+    /* Transversales : elles défilent vers le spectateur */
+    repeating-linear-gradient(
+      to bottom,
+      rgba(104, 146, 196, 0.9) 0 2px,
+      transparent 2px 116px
+    ),
+    /* Fuyantes : elles convergent vers le point de fuite */
+    repeating-linear-gradient(
+      to right,
+      rgba(104, 146, 196, 0.65) 0 2px,
+      transparent 2px 124px
+    );
+  background-size:
+    100% 116px,
+    124px 100%;
+  background-position:
+    0 0,
+    50% 0;
+  background-repeat: repeat, repeat;
+  /* Le marquage axial en jaune a été retiré : sous la flotte détourée, il ne
+     restait visible qu'en un petit trapèze isolé, lu comme un artefact. */
+  opacity: 0.5;
+  /* Le sol s'efface vers l'horizon : sans ce masque, le plan incliné s'arrête
+     sur une arête nette qui trahit le procédé. */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 18%,
+    black 70%,
+    transparent 100%
+  );
+  animation: route-defile 2.2s linear infinite;
+}
+
+@keyframes route-defile {
+  to {
+    background-position:
+      0 116px,
+      50% 0;
+  }
+}
+
+/* L'horizon : la lueur vers laquelle la route converge. */
+.horizon {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 58%;
+  height: 150px;
+  translate: -50% -50%;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(255, 132, 0, 0.3),
+    rgba(255, 132, 0, 0.08) 45%,
+    transparent 72%
+  );
+  filter: blur(6px);
+}
+
+/* ==========================================================================
+   LE GYROPHARE
+   Deux pales lumineuses opposées qui tournent, comme un vrai gyrophare de
+   dépanneuse. C'est la signature du site, et elle est littéralement le métier.
+   Volontairement lente et très diffuse : un gyrophare net et rapide
+   transformerait la page en alarme.
+   ========================================================================== */
+
+.gyrophare {
+  position: absolute;
+  pointer-events: none;
+  aspect-ratio: 1;
+  transform-origin: 50% 50%;
+  animation: gyrophare-tourne 7s linear infinite;
+}
+
+.gyrophare::before,
+.gyrophare::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(255, 132, 0, 0.26) 7deg,
+    rgba(255, 168, 61, 0.32) 14deg,
+    transparent 24deg
+  );
+  filter: blur(14px);
+}
+
+.gyrophare::after {
+  rotate: 180deg;
+}
+
+@keyframes gyrophare-tourne {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* ==========================================================================
+   LA BANDE DE DANGER
+   Le rayé oblique des véhicules d'intervention. Utilisé avec parcimonie, en
+   filet de quelques pixels, jamais en aplat : c'est un repère, pas un décor.
+   ========================================================================== */
+
+.bande-danger {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-hivis) 0 8px,
+    transparent 8px 16px
+  );
+}
+
+/* ==========================================================================
+   TYPOGRAPHIE CINÉTIQUE
+   Les mots du titre montent un par un depuis sous la ligne. L'effet est porté
+   par un délai inline sur chaque mot, donc il reste entièrement en CSS.
+   ========================================================================== */
+
+.mot {
+  display: inline-block;
+  animation: monte-mot 0.85s var(--ease-sortie) both;
+}
+
+@keyframes monte-mot {
+  from {
+    transform: translateY(105%) rotate(2.5deg);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   SÉQUENCE D'ENTRÉE DU HERO
+   Entièrement en CSS. Une animation CSS démarre toute seule au chargement :
+   il n'y a donc aucun risque qu'un élément reste bloqué invisible en
+   attendant du JavaScript, contrairement à une animation pilotée par script.
+   `animation-fill-mode: both` garantit l'état final, et le bloc
+   prefers-reduced-motion plus bas ramène tout à cet état immédiatement.
+   ========================================================================== */
+
+@keyframes monte-ligne {
+  from {
+    transform: translateY(108%);
+  }
+}
+
+@keyframes apparait {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* Le panneau photo ne part PAS de l'opacité zéro.
+   C'est l'élément LCP de la page, et Chrome ne compte pas un élément
+   invisible : un fondu d'entrée retardait la mesure de plus de deux secondes
+   sur mobile, pour un effet que personne ne remarque. Seule l'échelle est
+   animée, ce qui n'affecte pas la date de peinture. */
+@keyframes pose-panneau {
+  from {
+    transform: scale(1.035);
+  }
+}
+
+/* Le balayage de gyrophare : une seule traversée, puis il disparaît.
+   Pas de boucle — un gyrophare permanent épuise l'œil et concurrence le
+   bouton d'appel, qui est la seule chose à regarder dans ce hero. */
+@keyframes balayage-gyrophare {
+  0% {
+    transform: translateX(-130%);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(330%);
+    opacity: 0;
+  }
+}
+
+.hero-ligne {
+  animation: monte-ligne var(--duree-hero) var(--ease-sortie) both;
+}
+
+.hero-apparition {
+  animation: apparait var(--duree-hero) var(--ease-sortie) both;
+}
+
+.hero-panneau {
+  animation: pose-panneau 0.9s var(--ease-sortie) both;
+}
+
+.hero-balayage {
+  animation: balayage-gyrophare 1.5s cubic-bezier(0.4, 0, 0.3, 1) 0.5s both;
+}
+
+/* ==========================================================================
+   LA SIGNATURE : LA TRAJECTOIRE
+   Une ligne de guidage ambre qui relie les sections comme un itinéraire.
+   C'est le seul motif récurrent du site, et il reste discret : un trait de
+   2 px, jamais une animation qui réclame l'attention.
+
+   Le trait n'est masqué que si le JavaScript a mesuré sa longueur et posé
+   data-cache. Sans JavaScript, il est simplement affiché en entier.
+   ========================================================================== */
+
+.trajectoire path {
+  transition: stroke-dashoffset 1.1s var(--ease-sortie);
+}
+
+.trajectoire path[data-cache] {
+  stroke-dashoffset: var(--longueur, 1000);
+}
+
+/* ==========================================================================
+   RÉVÉLATIONS AU SCROLL
+   Le contenu est visible par défaut. Il n'est masqué que par l'attribut
+   data-cache, posé en JavaScript juste avant d'observer l'élément, et retiré
+   dès qu'il entre dans l'écran. Si le JavaScript échoue, l'attribut n'est
+   jamais posé et rien ne disparaît.
+   ========================================================================== */
+
+.revele {
+  transition:
+    opacity 0.55s var(--ease-sortie),
+    transform 0.55s var(--ease-sortie);
+}
+
+.revele[data-cache] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+/* ==========================================================================
+   MOUVEMENT RÉDUIT
+   Respect strict de prefers-reduced-motion : plus aucune animation, et
+   surtout aucun contenu laissé invisible en attente d'une animation.
+   ========================================================================== */
+
+/* ==========================================================================
+   IMPRESSION
+   Un rendu sans défilement réel (impression, export PDF, capture pleine page,
+   certains modes lecture) ne déclenche pas l'observateur d'intersection : les
+   blocs situés sous la ligne de flottaison resteraient blancs. On lève donc
+   tous les masquages, et on fait apparaître les numéros de téléphone en
+   toutes lettres, puisqu'un lien n'est pas cliquable sur papier.
+   ========================================================================== */
+
+@media print {
+  .revele,
+  .revele[data-cache],
+  .trajectoire path,
+  .trajectoire path[data-cache] {
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+
+  .hero-ligne,
+  .hero-apparition,
+  .hero-panneau,
+  .hero-balayage {
+    animation: none !important;
+  }
+
+  /* La barre d'appel collante et le bandeau de consentement n'ont aucun sens
+     sur papier. */
+  .saut-contenu {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .revele,
+  .revele[data-cache] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .trajectoire path,
+  .trajectoire path[data-cache] {
+    stroke-dashoffset: 0 !important;
+  }
+
+  /* La route cesse de défiler, le gyrophare de tourner, les mots de monter.
+     Tout reste visible, simplement immobile. */
+  .route,
+  .gyrophare,
+  .mot {
+    animation: none !important;
+  }
+
+  .mot {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
