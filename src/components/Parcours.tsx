@@ -20,6 +20,7 @@ export function Parcours() {
     <section className="relative overflow-hidden border-y border-trait/40 bg-acier/25 pt-20 pb-24 md:pt-24 md:pb-28">
       <div className="mx-auto max-w-[1180px] px-4 md:px-6">
         <div className="revele mesure-large">
+          <span aria-hidden="true" className="marqueur mb-7" />
           <h2 className="text-[2.3rem] sm:text-[3rem]">
             Ce qui se passe quand vous appelez
           </h2>

@@ -445,6 +445,70 @@ html.consent-decide .bandeau-consentement {
 }
 
 /* ==========================================================================
+   JAUGE DE PROGRESSION
+   Une bande de marquage routier en haut de page, qui se remplit à mesure que
+   l'on descend. Thématique plutôt que décorative : c'est la route parcourue.
+   Pilotée par une propriété personnalisée mise à jour au scroll.
+   ========================================================================== */
+
+.jauge {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 45;
+  height: 3px;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    var(--color-hivis) 0%,
+    var(--color-hivis) calc(var(--progression, 0) * 100%),
+    transparent calc(var(--progression, 0) * 100%)
+  );
+}
+
+/* ==========================================================================
+   DESSINS TRACÉS AU SCROLL
+   Les illustrations des prestations se dessinent quand elles entrent dans
+   l'écran, trait après trait. Chaque tracé calcule sa propre longueur en
+   JavaScript ; sans cela il faudrait inscrire des valeurs magiques dans le
+   CSS, qui se désynchroniseraient au premier redessin.
+
+   Comme partout sur ce site, le risque est inversé : le dessin est complet par
+   défaut, et n'est effacé que si le JavaScript a confirmé qu'il peut le
+   retracer.
+   ========================================================================== */
+
+.dessin path,
+.dessin circle,
+.dessin rect {
+  transition:
+    stroke-dashoffset 1.1s var(--ease-sortie),
+    opacity 0.5s var(--ease-sortie);
+}
+
+.dessin [data-cache] {
+  stroke-dashoffset: var(--longueur, 400);
+  opacity: 0.25;
+}
+
+/* ==========================================================================
+   MARQUEUR DE SECTION
+   Le filet rayé des véhicules d'intervention, repris en tête de chaque
+   section. C'est le fil conducteur graphique du site : trois pixels suffisent
+   à signer une page, là où un bandeau coloré la surchargerait.
+   ========================================================================== */
+
+.marqueur {
+  display: block;
+  height: 5px;
+  width: 64px;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-hivis) 0 7px,
+    transparent 7px 14px
+  );
+}
+
+/* ==========================================================================
    TYPOGRAPHIE CINÉTIQUE
    Les mots du titre montent un par un depuis sous la ligne. L'effet est porté
    par un délai inline sur chaque mot, donc il reste entièrement en CSS.
@@ -596,8 +660,22 @@ html.consent-decide .bandeau-consentement {
   .hero-ligne,
   .hero-apparition,
   .hero-panneau,
-  .hero-balayage {
+  .hero-balayage,
+  .route,
+  .gyrophare,
+  .mot {
     animation: none !important;
+  }
+
+  .mot,
+  .dessin [data-cache] {
+    transform: none !important;
+    opacity: 1 !important;
+    stroke-dashoffset: 0 !important;
+  }
+
+  .jauge {
+    display: none !important;
   }
 
   /* La barre d'appel collante et le bandeau de consentement n'ont aucun sens
@@ -637,6 +715,11 @@ html.consent-decide .bandeau-consentement {
   .gyrophare,
   .mot {
     animation: none !important;
+  }
+
+  .dessin [data-cache] {
+    stroke-dashoffset: 0 !important;
+    opacity: 1 !important;
   }
 
   .mot {

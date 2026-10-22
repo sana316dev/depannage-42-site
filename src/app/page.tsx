@@ -31,6 +31,8 @@ export default function Accueil() {
       {/* Grain : calque fixe, non interactif, qui donne une matière au fond.
           Sans lui, un aplat sombre reste un aplat sombre. */}
       <div className="grain" aria-hidden="true" />
+      {/* Jauge de progression : le marquage de la route parcourue. */}
+      <div className="jauge" aria-hidden="true" />
       <Entete />
       <main>
         <Hero />

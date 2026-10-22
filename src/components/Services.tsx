@@ -36,7 +36,7 @@ const traits = {
 const illustrations = {
   /* Le plateau basculé, la voiture en panne qui monte dessus par le treuil. */
   depannage: (
-    <svg aria-hidden="true" viewBox="0 0 160 84" {...traits}>
+    <svg aria-hidden="true" viewBox="0 0 160 84" className="dessin" {...traits}>
       {/* Camion : cabine et châssis */}
       <path d="M12 62V40h22l9 13h4" />
       <path d="M12 40h22" opacity=".45" />
@@ -59,7 +59,7 @@ const illustrations = {
 
   /* Le transport planifié : le véhicule arrimé, et la distance parcourue. */
   transport: (
-    <svg aria-hidden="true" viewBox="0 0 160 84" {...traits}>
+    <svg aria-hidden="true" viewBox="0 0 160 84" className="dessin" {...traits}>
       {/* Camion porte-voiture, vu de profil */}
       <path d="M14 56V34h20l8 12h4" />
       <path d="M18 38h11v6H18z" opacity=".35" />
@@ -84,7 +84,7 @@ const illustrations = {
 
   /* L'ouverture : la portière entrouverte et les clés restées sur le siège. */
   ouverture: (
-    <svg aria-hidden="true" viewBox="0 0 160 84" {...traits}>
+    <svg aria-hidden="true" viewBox="0 0 160 84" className="dessin" {...traits}>
       {/* Silhouette du véhicule, vue de trois quarts */}
       <path d="M22 58V44l12-16h52l16 16h14v14" opacity=".55" />
       <path d="M22 58h94" opacity=".3" />
@@ -130,6 +130,7 @@ export function Services() {
     >
       <div className="relative z-10 mx-auto max-w-[1180px] px-4 md:px-6">
         <div className="revele mesure-large">
+          <span aria-hidden="true" className="marqueur mb-7" />
           <h2 className="text-[2.3rem] sm:text-[3rem] lg:text-[3.4rem]">
             Trois situations,
             <br className="hidden sm:block" /> trois réponses

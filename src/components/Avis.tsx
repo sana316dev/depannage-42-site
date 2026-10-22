@@ -46,6 +46,7 @@ export function Avis() {
               colonne de gauche laisse plusieurs centaines de pixels vides sur
               grand écran. */}
           <div className="revele lg:sticky lg:top-28 lg:self-start">
+            <span aria-hidden="true" className="marqueur mb-7" />
             <h2 className="text-[2.3rem] sm:text-[3rem]">
               Ce que disent les clients
             </h2>

@@ -27,6 +27,7 @@ export function Faq() {
           {/* Solidaire du scroll, comme la note dans la section des avis :
               sinon la colonne laisse un grand vide pendant la lecture. */}
           <div className="revele lg:sticky lg:top-28 lg:self-start">
+            <span aria-hidden="true" className="marqueur mb-7" />
             <h2 className="text-[2.3rem] sm:text-[3rem]">
               Les questions qui reviennent
             </h2>

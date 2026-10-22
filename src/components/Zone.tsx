@@ -30,6 +30,7 @@ export function Zone() {
     >
       <div className="mx-auto max-w-[1180px] px-4 md:px-6">
         <div className="revele mesure-large">
+          <span aria-hidden="true" className="marqueur mb-7" />
           <h2 className="text-[2.3rem] sm:text-[3rem]">
             D&rsquo;où part le camion, et jusqu&rsquo;où
           </h2>
