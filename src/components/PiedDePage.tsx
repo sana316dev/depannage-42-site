@@ -20,11 +20,15 @@ export function PiedDePage() {
     // du pied de page sur mobile. C'est le dernier élément de la page, donc
     // c'est ici que l'espace doit être pris.
     <footer
-      className="border-t border-trait/60 bg-acier/40"
+      className="relative isolate overflow-hidden border-t border-trait/60 bg-asphalte"
       style={{ paddingBottom: "var(--h-barre-appel)" }}
     >
-      <div className="mx-auto max-w-[1180px] px-4 py-12 md:px-6 md:py-14">
-        <div className="grid gap-10 md:grid-cols-[1.3fr_1fr_1fr]">
+      {/* L'horizon du pied de page : la route vue de loin, une dernière fois.
+          On entre sur le site par la route, on en sort par la route. */}
+      <div aria-hidden="true" className="horizon-pied" />
+
+      <div className="relative z-10 mx-auto max-w-[1180px] px-4 py-14 md:px-6 md:py-16">
+        <div className="revele grid gap-10 md:grid-cols-[1.3fr_1fr_1fr]">
           {/* Identité */}
           <div>
             <div className="flex items-center gap-3">
@@ -52,7 +56,7 @@ export function PiedDePage() {
               <a
                 href={contact.telephoneHref}
                 data-appel="pied_de_page"
-                className="mt-1 inline-flex min-h-[44px] items-center font-semibold text-clair transition-colors duration-(--duree-ui) hover:text-ambre"
+                className="mt-1 inline-flex min-h-[44px] items-center font-semibold text-clair transition-colors duration-(--duree-ui) hover:text-action"
               >
                 {contact.telephone}
               </a>
@@ -126,7 +130,7 @@ export function PiedDePage() {
         </div>
 
         {/* Mentions légales condensées */}
-        <div className="mt-12 flex flex-col gap-3 border-t border-trait/60 pt-6 text-[0.8rem] leading-relaxed text-sourd md:flex-row md:items-center md:justify-between">
+        <div className="revele mt-14 flex flex-col gap-3 border-t border-trait/60 pt-6 text-[0.8rem] leading-relaxed text-sourd md:flex-row md:items-center md:justify-between">
           <p>
             {legal.raisonSociale} {legal.formeJuridique}, exerçant sous le nom
             commercial {legal.nomCommercial}. SIRET {legal.siret}, APE{" "}

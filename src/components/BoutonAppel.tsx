@@ -5,16 +5,16 @@ type Variante = "principal" | "secondaire" | "discret";
 
 const styles: Record<Variante, string> = {
   principal:
-    "bg-ambre text-nuit font-bold shadow-[0_8px_28px_-6px_rgba(255,154,31,0.45)] hover:bg-ambre-clair hover:shadow-[0_10px_34px_-6px_rgba(255,154,31,0.6)] active:translate-y-px",
+    "bg-action text-nuit font-bold shadow-[0_8px_28px_-6px_rgba(255,154,31,0.45)] hover:bg-action-clair hover:shadow-[0_10px_34px_-6px_rgba(255,154,31,0.6)] active:translate-y-px",
   secondaire:
-    "border-2 border-ambre text-ambre font-bold hover:bg-ambre hover:text-nuit",
+    "border-2 border-action text-action font-bold hover:bg-action hover:text-nuit",
   discret:
-    "border border-trait text-clair font-semibold hover:border-ambre hover:text-ambre",
+    "border border-trait text-clair font-semibold hover:border-action hover:text-action",
 };
 
 /**
  * Lien d'appel. C'est la seule action de conversion du site, donc le seul
- * composant autorisé à porter la couleur ambre en aplat.
+ * composant autorisé à porter la couleur action en aplat.
  *
  * `emplacement` est obligatoire : sans lui, impossible de savoir quel bloc
  * de la page génère réellement les appels.

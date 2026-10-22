@@ -77,8 +77,8 @@ export function Hero() {
 
         <p className="hero-apparition mb-5 inline-flex items-center gap-2.5 text-[0.95rem] font-medium text-doux [animation-delay:120ms]">
           <span className="relative flex size-2.5">
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-hivis opacity-70 [animation-duration:2.6s]" />
-            <span className="relative inline-flex size-2.5 rounded-full bg-hivis" />
+            <span className="absolute inline-flex size-full animate-ping rounded-full bg-signal opacity-70 [animation-duration:2.6s]" />
+            <span className="relative inline-flex size-2.5 rounded-full bg-signal" />
           </span>
           Quelqu&rsquo;un répond, {contact.disponibilite}
         </p>
@@ -87,7 +87,7 @@ export function Hero() {
           <span className="block">
             <Mots texte={copy.hero.titre} />
           </span>
-          <span className="block text-ambre">
+          <span className="block text-action">
             <Mots texte={copy.hero.titreAccent} depart={260} />
           </span>
         </h1>
@@ -129,7 +129,7 @@ export function Hero() {
           <a
             href={contact.telephoneHref}
             data-appel="hero"
-            className="inline-flex min-h-[44px] items-center font-semibold text-clair underline decoration-hivis decoration-2 underline-offset-4"
+            className="inline-flex min-h-[44px] items-center font-semibold text-clair underline decoration-signal decoration-2 underline-offset-4"
           >
             {contact.telephone}
           </a>
@@ -168,10 +168,10 @@ export function Hero() {
       {/* ---------------------------------------------------------------
           LA PREUVE, en pied de scène.
       --------------------------------------------------------------- */}
-      <div className="relative z-20 border-t border-trait/60 bg-nuit/60 backdrop-blur-sm">
+      <div className="relief-leger relative z-20 border-t border-trait/60 backdrop-blur-sm">
         <div className="mx-auto flex max-w-[1180px] flex-wrap items-center gap-x-8 gap-y-3 px-4 py-5 text-[0.92rem] text-doux md:px-6">
           <span className="inline-flex items-baseline gap-2.5">
-            <strong className="font-(family-name:--font-titre) text-[1.6rem] font-extrabold tracking-[-0.03em] text-hivis tabular-nums">
+            <strong className="font-(family-name:--font-titre) text-[1.6rem] font-extrabold tracking-[-0.03em] text-signal tabular-nums">
               {preuves.note.toFixed(1).replace(".", ",")}
             </strong>
             <span>

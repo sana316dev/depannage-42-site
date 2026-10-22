@@ -14,7 +14,7 @@ import { BoutonAppel } from "./BoutonAppel";
  *   - Le numéro composé en très grand, gradué selon l'écran. C'est le plus
  *     gros élément typographique du site, devant même le titre du hero, et
  *     c'est assumé : sur un site de dépannage, c'est l'information.
- *   - Une lueur ambre montant depuis le bas, comme des phares qui arrivent,
+ *   - Une lueur action montant depuis le bas, comme des phares qui arrivent,
  *     plus un halo propre au numéro qui s'intensifie au survol.
  *
  * Pas de formulaire : l'entreprise ne publie aucune adresse e-mail, et poser
@@ -25,7 +25,7 @@ import { BoutonAppel } from "./BoutonAppel";
 export function ContactFinal() {
   return (
     <section
-      className="lueur relative isolate overflow-hidden border-t border-trait/50 bg-acier/30 py-24 text-center md:py-32"
+      className="lueur bitume relative isolate overflow-hidden py-24 text-center md:py-32"
       style={
         {
           "--lueur-x": "50%",
@@ -37,14 +37,14 @@ export function ContactFinal() {
           recourir à une bordure franche sur toute la largeur. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-[15%] top-0 h-px bg-gradient-to-r from-transparent via-ambre/70 to-transparent"
+        className="pointer-events-none absolute inset-x-[15%] top-0 h-px bg-gradient-to-r from-transparent via-action/70 to-transparent"
       />
 
       <div className="relative z-10 mx-auto max-w-[1180px] px-4 md:px-6">
         <p className="revele inline-flex items-center gap-2.5 text-[0.95rem] font-medium text-doux">
           <span className="relative flex size-2.5">
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-ambre opacity-70 [animation-duration:2.6s]" />
-            <span className="relative inline-flex size-2.5 rounded-full bg-ambre" />
+            <span className="absolute inline-flex size-full animate-ping rounded-full bg-action opacity-70 [animation-duration:2.6s]" />
+            <span className="relative inline-flex size-2.5 rounded-full bg-action" />
           </span>
           Disponible {contact.disponibilite}
         </p>
@@ -62,9 +62,9 @@ export function ContactFinal() {
         >
           <span
             aria-hidden="true"
-            className="absolute inset-x-[-12%] inset-y-[-40%] rounded-full bg-ambre/12 blur-3xl transition-colors duration-500 ease-(--ease-sortie) group-hover:bg-ambre/20"
+            className="absolute inset-x-[-12%] inset-y-[-40%] rounded-full bg-action/12 blur-3xl transition-colors duration-500 ease-(--ease-sortie) group-hover:bg-action/20"
           />
-          <span className="relative block font-(family-name:--font-titre) text-[2.4rem] leading-[0.9] font-extrabold tracking-[-0.045em] text-clair tabular-nums transition-colors duration-(--duree-ui-lente) ease-(--ease-sortie) group-hover:text-ambre sm:text-[4rem] md:text-[5.2rem] lg:text-[6.2rem]">
+          <span className="relative block font-(family-name:--font-titre) text-[2.4rem] leading-[0.9] font-extrabold tracking-[-0.045em] text-clair tabular-nums transition-colors duration-(--duree-ui-lente) ease-(--ease-sortie) group-hover:text-action sm:text-[4rem] md:text-[5.2rem] lg:text-[6.2rem]">
             {contact.telephone}
           </span>
         </a>

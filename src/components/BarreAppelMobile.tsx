@@ -37,7 +37,7 @@ export function BarreAppelMobile() {
           href={contact.telephoneHref}
           data-appel="barre_mobile"
           aria-label={`Appeler Dépannage 42 au ${contact.telephone}`}
-          className="inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-[6px] bg-ambre px-5 font-bold text-nuit transition-colors duration-(--duree-ui) ease-(--ease-sortie) active:bg-ambre-sombre"
+          className="inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-[6px] bg-action px-5 font-bold text-nuit transition-colors duration-(--duree-ui) ease-(--ease-sortie) active:bg-action-sombre"
         >
           <svg
             aria-hidden="true"

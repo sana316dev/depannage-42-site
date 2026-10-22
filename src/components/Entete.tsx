@@ -94,7 +94,7 @@ export function Entete() {
           href={contact.telephoneHref}
           data-appel="entete"
           aria-label={`24 h/24, appeler le ${contact.telephone}`}
-          className="inline-flex min-h-[48px] items-center px-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-ambre md:hidden"
+          className="inline-flex min-h-[48px] items-center px-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-action md:hidden"
         >
           24 h/24
         </a>

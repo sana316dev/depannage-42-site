@@ -33,6 +33,62 @@ export function Revelations() {
     if (!document.documentElement.classList.contains("js-anime")) return;
 
     /* ------------------------------------------------------------------
+       1 bis. Le trajet des étapes. Chaque borne s'allume quand elle est
+       atteinte, et le tronçon qui la précède se remplit. Le passage d'une
+       étape à la suivante devient un déplacement sur la chaussée.
+
+       Piloté au scroll plutôt qu'à l'intersection : il faut un remplissage
+       progressif, pas un simple franchissement de seuil.
+    ------------------------------------------------------------------ */
+    const trajet = document.querySelector<HTMLElement>("[data-trajet]");
+    const bornes = trajet
+      ? Array.from(trajet.querySelectorAll<HTMLElement>("[data-borne]"))
+      : [];
+    const troncons = trajet
+      ? Array.from(trajet.querySelectorAll<HTMLElement>("[data-troncon]"))
+      : [];
+
+    const majTrajet = () => {
+      if (!trajet || !bornes.length) return;
+
+      /* Les quatre étapes sont alignées HORIZONTALEMENT sur grand écran :
+         elles partagent donc la même position verticale, et on ne peut pas
+         déduire l'avancement de la position de chaque borne. Une première
+         version le faisait et divisait par zéro, laissant tous les tronçons
+         vides.
+
+         On calcule donc une progression unique pour la section, et le trajet
+         se parcourt de gauche à droite à mesure qu'elle traverse l'écran. */
+      const rect = trajet.getBoundingClientRect();
+      const ligne = window.innerHeight * 0.72;
+      const course = rect.height + window.innerHeight * 0.3;
+      const avancement = Math.max(
+        0,
+        Math.min(1, (ligne - rect.top) / Math.max(1, course)),
+      );
+
+      // Chaque borne occupe une fraction égale du trajet.
+      const segments = Math.max(1, bornes.length - 1);
+
+      bornes.forEach((borne, i) => {
+        const seuil = i / (segments + 0.6);
+        if (avancement >= seuil) borne.setAttribute("data-atteinte", "1");
+        else borne.removeAttribute("data-atteinte");
+      });
+
+      troncons.forEach((troncon, i) => {
+        const debutSegment = i / (segments + 0.6);
+        const finSegment = (i + 1) / (segments + 0.6);
+        const part =
+          (avancement - debutSegment) / Math.max(0.0001, finSegment - debutSegment);
+        troncon.style.setProperty(
+          "--franchi",
+          String(Math.max(0, Math.min(1, part))),
+        );
+      });
+    };
+
+    /* ------------------------------------------------------------------
        1. Jauge de progression : la route parcourue, en haut de page.
     ------------------------------------------------------------------ */
     const jauge = document.querySelector<HTMLElement>(".jauge");
@@ -43,6 +99,7 @@ export function Revelations() {
       enAttente = true;
       requestAnimationFrame(() => {
         enAttente = false;
+        majTrajet();
         if (!jauge) return;
         const parcourable =
           document.documentElement.scrollHeight - window.innerHeight;
@@ -85,7 +142,9 @@ export function Revelations() {
     /* ------------------------------------------------------------------
        3. Révélations et tracés, pilotés par l'observateur d'intersection.
     ------------------------------------------------------------------ */
-    const blocs = Array.from(document.querySelectorAll<HTMLElement>(".revele"));
+    const blocs = Array.from(
+      document.querySelectorAll<HTMLElement>(".revele, .derive"),
+    );
     const aReveler: Element[] = [...blocs, ...traces];
 
     const toutReveler = () =>

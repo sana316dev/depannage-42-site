@@ -52,7 +52,7 @@ export function Zone() {
           >
             <path
               d="M12 10 L12 590"
-              stroke="var(--color-ambre)"
+              stroke="var(--color-action)"
               strokeWidth="2"
               strokeLinecap="round"
               strokeDasharray="600"
@@ -67,9 +67,9 @@ export function Zone() {
               >
                 <span
                   aria-hidden="true"
-                  className="absolute top-1.5 left-0 hidden size-[26px] items-center justify-center rounded-full border-2 border-ambre bg-nuit md:flex"
+                  className="absolute top-1.5 left-0 hidden size-[26px] items-center justify-center rounded-full border-2 border-action bg-nuit md:flex"
                 >
-                  <span className="size-2 rounded-full bg-ambre" />
+                  <span className="size-2 rounded-full bg-action" />
                 </span>
 
                 <p className="text-[0.92rem] font-medium text-sourd">
@@ -106,7 +106,7 @@ export function Zone() {
                     href={itineraire}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 inline-flex min-h-[44px] items-center gap-2 text-[0.92rem] font-semibold text-ambre underline decoration-ambre/40 decoration-2 underline-offset-4 transition-colors duration-(--duree-ui) hover:decoration-ambre"
+                    className="mt-4 inline-flex min-h-[44px] items-center gap-2 text-[0.92rem] font-semibold text-action underline decoration-action/40 decoration-2 underline-offset-4 transition-colors duration-(--duree-ui) hover:decoration-action"
                   >
                     Ouvrir l&rsquo;itinéraire
                     <span className="lecteur-ecran">
@@ -120,7 +120,7 @@ export function Zone() {
           </ul>
         </div>
 
-        <div className="revele arete relative mt-14 flex flex-col gap-5 overflow-hidden rounded-[var(--radius-bloc)] border border-trait/70 bg-acier/60 p-7 shadow-[var(--ombre-posee)] sm:flex-row sm:items-center sm:justify-between md:p-8">
+        <div className="revele arete relief relative mt-14 flex flex-col gap-5 overflow-hidden rounded-[var(--radius-bloc)] border border-trait/70 p-7 sm:flex-row sm:items-center sm:justify-between md:p-8">
           <p className="max-w-[34rem] leading-relaxed text-doux">
             Vous ne savez pas si vous êtes dans la zone ? Donnez votre
             localisation au téléphone, la réponse est immédiate.

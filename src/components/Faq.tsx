@@ -20,7 +20,7 @@ export function Faq() {
   return (
     <section
       id="questions"
-      className="relative scroll-mt-24 border-y border-trait/40 bg-acier/25 pt-20 pb-24 md:pt-24 md:pb-28"
+      className="bitume relative scroll-mt-24 overflow-hidden pt-20 pb-24 md:pt-24 md:pb-28"
     >
       <div className="mx-auto max-w-[1180px] px-4 md:px-6">
         <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16">
@@ -47,12 +47,12 @@ export function Faq() {
                       suivreOuvertureFaq(item.question);
                     }
                   }}
-                  className="flex cursor-pointer list-none items-start justify-between gap-5 py-5 text-[1.1rem] font-medium transition-colors duration-(--duree-ui) ease-(--ease-sortie) hover:text-ambre [&::-webkit-details-marker]:hidden"
+                  className="flex cursor-pointer list-none items-start justify-between gap-5 py-5 text-[1.1rem] font-medium transition-colors duration-(--duree-ui) ease-(--ease-sortie) hover:text-action [&::-webkit-details-marker]:hidden"
                 >
                   {item.question}
                   <span
                     aria-hidden="true"
-                    className="mt-1 shrink-0 text-ambre transition-transform duration-(--duree-ui-lente) ease-(--ease-sortie) group-open:rotate-45"
+                    className="mt-1 shrink-0 text-action transition-transform duration-(--duree-ui-lente) ease-(--ease-sortie) group-open:rotate-45"
                   >
                     <svg
                       viewBox="0 0 24 24"

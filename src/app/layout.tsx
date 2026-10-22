@@ -1,28 +1,31 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Geist } from "next/font/google";
+import { Bricolage_Grotesque, Space_Grotesk } from "next/font/google";
 import { contact, copy, legal, services, zone } from "@/content/site";
 import { Consentement } from "@/components/Consentement";
 import "./globals.css";
 
-/* Titres : Archivo, grotesque contemporaine, chargée en police variable.
-   L'axe de largeur (wdth) n'est PAS chargé : la maquette n'utilise que la
-   graisse, et un axe inutilisé coûtait une quarantaine de kilo-octets sur le
-   chemin critique. À réintroduire seulement si des titres élargis sont
-   réellement dessinés. */
-const archivo = Archivo({
+/* Titres : Bricolage Grotesque.
+   Archivo était correcte et sans relief : une grotesque neutre de plus, ce
+   qui est exactement le reproche fait au premier rendu. Bricolage a un vrai
+   dessin — encoches d'encrage marquées, terminaisons coupées — et un axe de
+   largeur qui permet d'élargir les gros titres comme une signalétique
+   routière sans charger de seconde famille. */
+const titre = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-archivo",
+  axes: ["wdth", "opsz"],
+  variable: "--police-titre",
   display: "swap",
 });
 
-/* Texte courant : Geist. Inter a été écartée — c'est la police par défaut de
-   tout site généré, au point d'en être une signature, et sa neutralité
-   absolue est précisément ce qui rendait la page plate. Geist garde la même
-   lisibilité à petit corps tout en ayant un dessin, notamment sur les
-   chiffres, qui comptent beaucoup ici. */
-const geist = Geist({
+/* Texte courant : Space Grotesk.
+   Choisie pour ses CHIFFRES, qui sont le cœur de ce site : le numéro de
+   téléphone est l'information que la majorité des visiteurs vient chercher.
+   Ses chiffres ont un dessin mécanique, légèrement technique, qui évoque
+   l'instrumentation plutôt que le texte courant. Geist et Inter, elles, ont
+   des chiffres parfaitement neutres. */
+const texte = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-geist",
+  variable: "--police-texte",
   display: "swap",
 });
 
@@ -138,7 +141,7 @@ export default function RootLayout({
     // attribut du document modifié avant hydratation.
     <html
       lang="fr"
-      className={`${archivo.variable} ${geist.variable}`}
+      className={`${titre.variable} ${texte.variable}`}
       suppressHydrationWarning
     >
       <head>

@@ -23,7 +23,7 @@ import { BoutonAppel } from "./BoutonAppel";
  * rien du métier. Chaque dessin montre donc le geste réel, à savoir le
  * véhicule sur le plateau incliné, la route parcourue, la portière ouverte.
  *
- * L'ambre ne souligne qu'un seul détail par dessin : celui qui porte le sens.
+ * L'action ne souligne qu'un seul détail par dessin : celui qui porte le sens.
  */
 const traits = {
   fill: "none" as const,
@@ -42,7 +42,7 @@ const illustrations = {
       <path d="M12 40h22" opacity=".45" />
       <path d="M16 44h12v7H16z" opacity=".35" />
       {/* Plateau incliné */}
-      <path d="M47 62 144 36" className="text-ambre" strokeWidth="2.2" />
+      <path d="M47 62 144 36" className="text-action" strokeWidth="2.2" />
       <path d="M47 62h97" opacity=".3" />
       {/* Voiture en cours de chargement sur le plateau */}
       <path d="m86 46 7-8h17l9 7" opacity=".8" />
@@ -68,14 +68,14 @@ const illustrations = {
       <path d="m64 40 6-7h16l8 7" opacity=".85" />
       <path d="M58 40h46" opacity=".85" />
       {/* Sangles d'arrimage */}
-      <path d="M72 33v7M96 33v7" className="text-ambre" opacity=".9" />
+      <path d="M72 33v7M96 33v7" className="text-action" opacity=".9" />
       <circle cx="28" cy="62" r="6" />
       <circle cx="62" cy="62" r="6" />
       <circle cx="124" cy="62" r="6" />
-      {/* La distance : la route qui file, en pointillé ambre */}
+      {/* La distance : la route qui file, en pointillé action */}
       <path
         d="M6 74h148"
-        className="text-ambre"
+        className="text-action"
         strokeDasharray="10 9"
         opacity=".75"
       />
@@ -92,11 +92,11 @@ const illustrations = {
       {/* La portière, ouverte */}
       <path
         d="M86 44 118 32v22l-32 4z"
-        className="text-ambre"
+        className="text-action"
         strokeWidth="2"
       />
       {/* La poignée */}
-      <path d="M104 42h7" className="text-ambre" opacity=".8" />
+      <path d="M104 42h7" className="text-action" opacity=".8" />
       {/* Les clés, restées à l'intérieur */}
       <circle cx="62" cy="48" r="4.5" opacity=".9" />
       <path d="M66 48h12m-4 0v4m8-4v3" opacity=".9" />
@@ -145,10 +145,10 @@ export function Services() {
         {/* ---------------------------------------------------------------
             Le service qui déclenche l'appel : traité en grand.
         --------------------------------------------------------------- */}
-        <article className="revele arete relative mt-14 overflow-hidden rounded-[var(--radius-bloc)] border border-trait/70 bg-acier/60 shadow-[var(--ombre-posee)]">
+        <article className="revele arete relief relative mt-14 overflow-hidden rounded-[var(--radius-bloc)] border border-trait/70">
           <div className="grid gap-8 p-7 md:grid-cols-[1.25fr_0.75fr] md:items-center md:gap-10 md:p-10">
             <div>
-              <p className="text-[1.02rem] font-medium text-ambre">
+              <p className="text-[1.02rem] font-medium text-action">
                 {principal.besoin}
               </p>
               <h3 className="mt-3 text-[1.9rem] md:text-[2.4rem]">
@@ -191,13 +191,13 @@ export function Services() {
           {secondaires.map((service) => (
             <article
               key={service.id}
-              className="revele group relative flex flex-col rounded-[var(--radius-bloc)] border border-trait/50 p-7 transition-colors duration-(--duree-ui-lente) ease-(--ease-sortie) hover:border-trait-vif md:p-8"
+              className="revele relief-leger group relative flex flex-col rounded-[var(--radius-bloc)] border border-trait/50 p-7 transition-colors duration-(--duree-ui-lente) ease-(--ease-sortie) hover:border-trait-vif md:p-8"
             >
               <div className="mb-6 w-[150px] text-sourd transition-colors duration-(--duree-ui-lente) ease-(--ease-sortie) group-hover:text-doux">
                 {illustrations[service.id]}
               </div>
 
-              <p className="text-[0.96rem] font-medium text-ambre">
+              <p className="text-[0.96rem] font-medium text-action">
                 {service.besoin}
               </p>
               <h3 className="mt-2.5 text-[1.5rem]">{service.titre}</h3>
@@ -240,7 +240,7 @@ function Coche() {
     <svg
       aria-hidden="true"
       viewBox="0 0 24 24"
-      className="size-3.5 shrink-0 text-ambre"
+      className="size-3.5 shrink-0 text-action"
       fill="none"
       stroke="currentColor"
       strokeWidth="3"

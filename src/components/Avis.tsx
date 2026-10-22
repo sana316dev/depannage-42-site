@@ -15,7 +15,7 @@ import { contact, preuves } from "@/content/site";
 
 function Etoiles({ note }: { note: number }) {
   return (
-    <span className="inline-flex gap-0.5 text-ambre" aria-hidden="true">
+    <span className="inline-flex gap-0.5 text-action" aria-hidden="true">
       {Array.from({ length: 5 }, (_, i) => (
         <svg
           key={i}
@@ -82,7 +82,7 @@ export function Avis() {
               target="_blank"
               rel="noopener noreferrer"
               data-avis=""
-              className="mt-6 inline-flex min-h-[48px] items-center gap-2.5 rounded-[6px] border border-trait px-5 font-semibold transition-colors duration-(--duree-ui) ease-(--ease-sortie) hover:border-ambre hover:text-ambre"
+              className="mt-6 inline-flex min-h-[48px] items-center gap-2.5 rounded-[6px] border border-trait px-5 font-semibold transition-colors duration-(--duree-ui) ease-(--ease-sortie) hover:border-action hover:text-action"
             >
               Lire les avis sur Google
               <svg
@@ -109,7 +109,7 @@ export function Avis() {
               {preuves.themes.map((theme, i) => (
                 <li
                   key={theme.titre}
-                  className="group relative border-l-2 border-trait py-4 pl-6 transition-colors duration-(--duree-ui-lente) ease-(--ease-sortie) hover:border-ambre"
+                  className="group relative border-l-2 border-trait py-4 pl-6 transition-colors duration-(--duree-ui-lente) ease-(--ease-sortie) hover:border-action"
                 >
                   <h3 className="flex items-baseline gap-3 text-[1.18rem]">
                     <span className="font-(family-name:--font-titre) text-[0.82rem] font-bold text-repere tabular-nums">
@@ -126,14 +126,24 @@ export function Avis() {
 
             {/* Les citations ne sont pas encadrées. Bordure + fond + ombre,
                 c'est le trio qui fait « carte de gabarit » ; ici le guillemet
-                ambre et le filet suffisent à séparer, et le texte respire. */}
+                action et le filet suffisent à séparer, et le texte respire. */}
             <div className="mt-12 divide-y divide-trait/50 border-t border-trait/50">
               {preuves.avis.map((avis, i) => (
-                <figure key={avis.auteur} className="revele py-7">
+                <figure
+                  key={avis.auteur}
+                  className="derive py-7"
+                  style={
+                    {
+                      // Alternance du sens : une dérive identique pour chaque
+                      // citation produirait de nouveau un effet de liste.
+                      "--derive": i % 2 === 0 ? "-26px" : "26px",
+                    } as React.CSSProperties
+                  }
+                >
                   <div className="flex items-start gap-5">
                     <span
                       aria-hidden="true"
-                      className="mt-[-0.35em] font-(family-name:--font-titre) text-[3.2rem] leading-none font-extrabold text-ambre/35 select-none"
+                      className="mt-[-0.35em] font-(family-name:--font-titre) text-[3.2rem] leading-none font-extrabold text-action/35 select-none"
                     >
                       &ldquo;
                     </span>

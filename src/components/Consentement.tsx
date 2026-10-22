@@ -84,7 +84,7 @@ export function Consentement() {
       className="bandeau-consentement fixed inset-x-0 z-50 px-3 pb-3 md:left-auto md:right-4 md:max-w-sm"
       style={{ bottom: "var(--h-barre-appel)" }}
     >
-      <div className="rounded-[6px] border border-trait bg-acier-clair p-4 shadow-[0_18px_50px_rgba(0,0,0,0.6)]">
+      <div className="relief rounded-[var(--radius-doux)] border border-trait p-4">
         <p id="consentement-titre" className="text-sm font-semibold">
           Mesure d&rsquo;audience
         </p>
@@ -107,7 +107,7 @@ export function Consentement() {
           <button
             type="button"
             onClick={() => choisir("accepte")}
-            className="min-h-[44px] flex-1 rounded-[4px] bg-ambre px-3 py-2.5 text-[0.82rem] font-bold text-nuit transition-colors duration-(--duree-ui) ease-(--ease-sortie) hover:bg-ambre-clair"
+            className="min-h-[44px] flex-1 rounded-[4px] bg-action px-3 py-2.5 text-[0.82rem] font-bold text-nuit transition-colors duration-(--duree-ui) ease-(--ease-sortie) hover:bg-action-clair"
           >
             Accepter
           </button>

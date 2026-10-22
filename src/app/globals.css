@@ -6,7 +6,7 @@
    écrite en dur dans un composant. Tout passe par ces variables.
 
    Palette dérivée du logo existant (camion plateau blanc sur bleu nuit) et
-   des gyrophares ambre visibles sur la photo réelle de la flotte.
+   des gyrophares action visibles sur la photo réelle de la flotte.
    Le rouge #e60000 de l'ancien site est abandonné : générique « garage ».
    ========================================================================== */
 
@@ -29,25 +29,28 @@
   --color-doux: #a6bace;
   --color-sourd: #6e8399;
 
-  /* --- Action : l'ambre du gyrophare ---------------------------------------
-     Plus chaud et plus saturé que l'orange précédent. Réservé strictement aux
-     appels à l'action : si l'ambre sert aussi à décorer, le bouton d'appel ne
-     se détache plus de rien. */
-  --color-ambre: #ff8400;
-  --color-ambre-clair: #ffa83d;
-  --color-ambre-sombre: #d96d00;
+  /* --- Action : le jaune haute visibilité ---------------------------------
+     C'est la couleur du gilet porté sur la photo du client et celle du secours
+     routier. Elle porte désormais l'ACTION : tout appel à l'action, et rien
+     d'autre. Sur fond nuit elle monte à 17,1:1, et le texte sombre posé
+     dessus est parfaitement lisible.
+     Nommée `action` et non par sa teinte : si la couleur change un jour, le
+     nom du jeton reste juste. */
+  --color-action: #d8ff33;
+  --color-action-clair: #e6ff70;
+  --color-action-sombre: #b4d916;
 
-  /* --- Signal : le jaune haute visibilité -----------------------------------
-     C'est la couleur du gilet porté sur la photo du client, et celle du
-     secours routier en général. Elle ne sert jamais de bouton : elle marque,
-     elle souligne, elle signale ce qui est vivant. Deux accents coexistent
-     donc, mais avec des rôles qui ne se recouvrent pas. */
-  --color-hivis: #d8ff33;
-  --color-hivis-sourd: #a8c926;
+  /* --- Signal : l'orange du gyrophare -------------------------------------
+     Plus clair et plus franc que l'action précédent. Il SIGNALE : marquage de
+     la chaussée, repères, éléments vivants, états. Il ne devient jamais un
+     bouton — sans quoi l'appel à l'action ne se détacherait plus de rien. */
+  --color-signal: #ffa226;
+  --color-signal-clair: #ffbe63;
+  --color-signal-sombre: #e08400;
 
   /* --- Typographie ------------------------------------------------------- */
-  --font-titre: var(--font-archivo), "Arial Narrow", system-ui, sans-serif;
-  --font-texte: var(--font-geist), system-ui, -apple-system, sans-serif;
+  --font-titre: var(--police-titre), "Arial Narrow", system-ui, sans-serif;
+  --font-texte: var(--police-texte), system-ui, -apple-system, sans-serif;
 
   /* --- Mouvement ---------------------------------------------------------
      Transitions d'interface : 150 à 250 ms.
@@ -71,7 +74,7 @@
      comme un calque étranger posé sur la page. */
   --ombre-posee: 0 18px 44px -16px rgba(4, 10, 18, 0.9);
   --ombre-levee: 0 34px 80px -28px rgba(4, 10, 18, 0.95);
-  --ombre-ambre: 0 14px 38px -12px rgba(255, 154, 31, 0.38);
+  --ombre-action: 0 14px 38px -12px rgba(255, 154, 31, 0.38);
 }
 
 /* ==========================================================================
@@ -190,7 +193,7 @@
 
    1. Le grain. Un bruit fractal en SVG inline, fixé au viewport. C'est ce qui
       fait qu'une surface sombre ressemble à une matière plutôt qu'à un aplat.
-   2. La lumière ambiante. Des halos radiaux ambre très faibles, posés aux
+   2. La lumière ambiante. Des halos radiaux action très faibles, posés aux
       endroits qui comptent (le hero, l'appel final), comme la lueur d'un
       gyrophare sur du bitume mouillé. Jamais un dégradé linéaire uniforme.
    ========================================================================== */
@@ -205,7 +208,7 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23b)'/%3E%3C/svg%3E");
 }
 
-/* Halo ambre. Posé en ::before sur une section, il reste derrière le contenu. */
+/* Halo action. Posé en ::before sur une section, il reste derrière le contenu. */
 .lueur::before {
   content: "";
   position: absolute;
@@ -240,11 +243,11 @@
 /* ==========================================================================
    ACCESSIBILITÉ
    Un focus visible et identique partout, qui ne dépend jamais de la couleur
-   seule : contour ambre + décalage, visible sur tous les fonds du site.
+   seule : contour action + décalage, visible sur tous les fonds du site.
    ========================================================================== */
 
 :focus-visible {
-  outline: 3px solid var(--color-ambre);
+  outline: 3px solid var(--color-action);
   outline-offset: 3px;
   border-radius: var(--radius-net);
 }
@@ -260,7 +263,7 @@
   top: 0.75rem;
   z-index: 100;
   padding: 0.65rem 1.1rem;
-  background: var(--color-ambre);
+  background: var(--color-action);
   color: var(--color-nuit);
   font-weight: 700;
   border-radius: var(--radius-doux);
@@ -330,28 +333,31 @@ html.consent-decide .bandeau-consentement {
   transform-origin: 50% 0;
   transform: rotateX(85deg);
   background-image:
-    /* Transversales : elles défilent vers le spectateur */
-    repeating-linear-gradient(
-      to bottom,
-      rgba(104, 146, 196, 0.9) 0 2px,
-      transparent 2px 116px
-    ),
-    /* Fuyantes : elles convergent vers le point de fuite */
+    /* Fuyantes : les lignes de rive, qui convergent vers le point de fuite.
+       Ce sont elles qui portent la perspective. */
     repeating-linear-gradient(
       to right,
-      rgba(104, 146, 196, 0.65) 0 2px,
+      rgba(104, 146, 196, 0.6) 0 2px,
       transparent 2px 124px
+    ),
+    /* Marquage axial : les bandes qui défilent au centre de la chaussée.
+       C'est ce qui fait lire le plan comme une ROUTE. NE PAS RETIRER. */
+    repeating-linear-gradient(
+      to bottom,
+      var(--color-signal) 0 70px,
+      transparent 70px 240px
     );
   background-size:
-    100% 116px,
-    124px 100%;
+    124px 100%,
+    16px 240px;
   background-position:
-    0 0,
+    50% 0,
     50% 0;
-  background-repeat: repeat, repeat;
-  /* Le marquage axial en jaune a été retiré : sous la flotte détourée, il ne
-     restait visible qu'en un petit trapèze isolé, lu comme un artefact. */
-  opacity: 0.5;
+  background-repeat: repeat, repeat-y;
+  /* Les transversales ont été retirées : sous rotateX elles produisent de
+     longs filets horizontaux qui traversent les véhicules et se lisent comme
+     des règles cassées. Une chaussée réelle n'en comporte pas. */
+  opacity: 0.62;
   /* Le sol s'efface vers l'horizon : sans ce masque, le plan incliné s'arrête
      sur une arête nette qui trahit le procédé. */
   mask-image: linear-gradient(
@@ -367,8 +373,8 @@ html.consent-decide .bandeau-consentement {
 @keyframes route-defile {
   to {
     background-position:
-      0 116px,
-      50% 0;
+      50% 0,
+      50% 240px;
   }
 }
 
@@ -439,9 +445,140 @@ html.consent-decide .bandeau-consentement {
 .bande-danger {
   background-image: repeating-linear-gradient(
     -45deg,
-    var(--color-hivis) 0 8px,
+    var(--color-signal) 0 8px,
     transparent 8px 16px
   );
+}
+
+/* ==========================================================================
+   RELIEF DES SURFACES
+   Un encadré plat, c'est une bordure et un fond. Un encadré qui a du relief,
+   c'est une arête claire en haut, une ombre interne en bas, et une matière.
+   Les trois ensemble simulent une plaque éclairée par le haut, donc une
+   direction de lumière cohérente avec les gyrophares de la scène.
+   ========================================================================== */
+
+.relief {
+  position: relative;
+  background:
+    /* Matière : le même bruit que le grain global, mais local et plus dense,
+       pour que la surface ait un toucher. */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E"),
+    /* Lumière rasante venue du haut */
+    linear-gradient(
+      to bottom,
+      rgba(104, 146, 196, 0.09),
+      rgba(104, 146, 196, 0.02) 38%,
+      transparent 70%
+    ),
+    var(--color-acier);
+  background-blend-mode: overlay, normal, normal;
+  box-shadow:
+    /* Arête claire sur le bord supérieur */
+    inset 0 1px 0 rgba(166, 186, 206, 0.16),
+    /* Creux sur le bord inférieur */
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+    var(--ombre-posee);
+}
+
+/* Surface plus discrète, pour les blocs secondaires. */
+.relief-leger {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(104, 146, 196, 0.06),
+      transparent 60%
+    ),
+    rgba(18, 29, 44, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(166, 186, 206, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   LE BITUME
+   Fond de section évoquant une chaussée : un bruit dense, un très léger
+   dégradé, et deux bandes de marquage aux extrémités. Donne de la matière là
+   où un aplat laissait la section flotter.
+   ========================================================================== */
+
+.bitume {
+  position: relative;
+  background-color: var(--color-asphalte);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23a)' opacity='0.42'/%3E%3C/svg%3E");
+  background-blend-mode: overlay;
+}
+
+/* Marquage continu en bordure haute et basse d'une section de chaussée. */
+.bitume::before,
+.bitume::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(104, 146, 196, 0.5) 12%,
+    rgba(104, 146, 196, 0.5) 88%,
+    transparent
+  );
+}
+
+.bitume::before {
+  top: 0;
+}
+
+.bitume::after {
+  bottom: 0;
+}
+
+/* ==========================================================================
+   LA JOURNÉE D'ÉTAPES
+   Les quatre étapes de l'intervention lues comme un trajet. La bande centrale
+   est une chaussée dont le marquage se remplit à mesure que l'on descend, et
+   chaque borne s'allume quand elle est atteinte.
+   ========================================================================== */
+
+.etape-borne {
+  transition:
+    border-color 0.45s var(--ease-sortie),
+    background-color 0.45s var(--ease-sortie),
+    color 0.45s var(--ease-sortie),
+    box-shadow 0.45s var(--ease-sortie);
+}
+
+/* Borne atteinte : elle passe au signal et s'éclaire. */
+.etape-borne[data-atteinte] {
+  border-color: var(--color-signal);
+  color: var(--color-nuit);
+  background-color: var(--color-signal);
+  box-shadow: 0 0 0 6px rgba(255, 162, 38, 0.14);
+}
+
+/* Le tronçon reliant deux bornes se remplit quand il est franchi. */
+.etape-troncon {
+  position: relative;
+  overflow: hidden;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(104, 146, 196, 0.45) 0 10px,
+    transparent 10px 20px
+  );
+}
+
+.etape-troncon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  scale: var(--franchi, 0) 1;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-signal) 0 10px,
+    transparent 10px 20px
+  );
+  transition: scale 0.6s var(--ease-sortie);
 }
 
 /* ==========================================================================
@@ -459,8 +596,8 @@ html.consent-decide .bandeau-consentement {
   pointer-events: none;
   background: linear-gradient(
     to right,
-    var(--color-hivis) 0%,
-    var(--color-hivis) calc(var(--progression, 0) * 100%),
+    var(--color-signal) 0%,
+    var(--color-signal) calc(var(--progression, 0) * 100%),
     transparent calc(var(--progression, 0) * 100%)
   );
 }
@@ -503,9 +640,75 @@ html.consent-decide .bandeau-consentement {
   width: 64px;
   background-image: repeating-linear-gradient(
     -45deg,
-    var(--color-hivis) 0 7px,
+    var(--color-signal) 0 7px,
     transparent 7px 14px
   );
+}
+
+/* ==========================================================================
+   DÉRIVE LATÉRALE
+   Variante de révélation pour les citations : elles arrivent légèrement de
+   côté plutôt que du bas. Sur une colonne de témoignages, une montée
+   identique pour chacun produit un effet de liste ; une dérive alternée
+   donne l'impression qu'ils se posent.
+   ========================================================================== */
+
+.derive {
+  transition:
+    opacity 0.65s var(--ease-sortie),
+    transform 0.65s var(--ease-sortie);
+}
+
+.derive[data-cache] {
+  opacity: 0;
+  transform: translateX(var(--derive, -22px));
+}
+
+/* ==========================================================================
+   L'HORIZON DU PIED DE PAGE
+   La route réapparaît en bas de site, vue de loin : les fuyantes convergent
+   une dernière fois vers un point de fuite. C'est la boucle refermée — on
+   entre par la route, on en sort par la route.
+   ========================================================================== */
+
+.horizon-pied {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 190px;
+  pointer-events: none;
+  perspective: 300px;
+  perspective-origin: 50% 100%;
+  overflow: hidden;
+}
+
+.horizon-pied::before {
+  content: "";
+  position: absolute;
+  inset: -60% -50% 0 -50%;
+  transform-origin: 50% 100%;
+  transform: rotateX(82deg);
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(104, 146, 196, 0.5) 0 2px,
+    transparent 2px 120px
+  );
+  mask-image: linear-gradient(to top, black 10%, transparent 72%);
+  opacity: 0.4;
+}
+
+/* Le trait d'horizon lui-même, en couleur de signal. */
+.horizon-pied::after {
+  content: "";
+  position: absolute;
+  inset: auto 20% 188px 20%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-signal) 50%,
+    transparent
+  );
+  opacity: 0.45;
 }
 
 /* ==========================================================================
@@ -597,7 +800,7 @@ html.consent-decide .bandeau-consentement {
 
 /* ==========================================================================
    LA SIGNATURE : LA TRAJECTOIRE
-   Une ligne de guidage ambre qui relie les sections comme un itinéraire.
+   Une ligne de guidage action qui relie les sections comme un itinéraire.
    C'est le seul motif récurrent du site, et il reste discret : un trait de
    2 px, jamais une animation qui réclame l'attention.
 
@@ -699,7 +902,9 @@ html.consent-decide .bandeau-consentement {
   }
 
   .revele,
-  .revele[data-cache] {
+  .revele[data-cache],
+  .derive,
+  .derive[data-cache] {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -720,6 +925,10 @@ html.consent-decide .bandeau-consentement {
   .dessin [data-cache] {
     stroke-dashoffset: 0 !important;
     opacity: 1 !important;
+  }
+
+  .etape-troncon::after {
+    scale: 1 1 !important;
   }
 
   .mot {

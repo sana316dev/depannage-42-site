@@ -21,14 +21,14 @@ export const metadata: Metadata = {
  */
 export default function MentionsLegales() {
   const aCompleter = (
-    <em className="text-ambre not-italic">[à compléter par l&rsquo;entreprise]</em>
+    <em className="text-action not-italic">[à compléter par l&rsquo;entreprise]</em>
   );
 
   return (
     <main className="mx-auto max-w-[46rem] px-4 pt-[120px] pb-20 md:px-6">
       <Link
         href="/"
-        className="inline-flex min-h-[44px] items-center gap-2 text-[0.92rem] font-semibold text-doux transition-colors duration-(--duree-ui) hover:text-ambre"
+        className="inline-flex min-h-[44px] items-center gap-2 text-[0.92rem] font-semibold text-doux transition-colors duration-(--duree-ui) hover:text-action"
       >
         <svg
           aria-hidden="true"
@@ -111,7 +111,7 @@ export default function MentionsLegales() {
               <dd className="inline">
                 <a
                   href={contact.telephoneHref}
-                  className="font-semibold text-clair underline decoration-ambre decoration-2 underline-offset-4"
+                  className="font-semibold text-clair underline decoration-action decoration-2 underline-offset-4"
                 >
                   {contact.telephone}
                 </a>
@@ -162,7 +162,7 @@ export default function MentionsLegales() {
             l&rsquo;entreprise par téléphone au{" "}
             <a
               href={contact.telephoneHref}
-              className="font-semibold text-clair underline decoration-ambre decoration-2 underline-offset-4"
+              className="font-semibold text-clair underline decoration-action decoration-2 underline-offset-4"
             >
               {contact.telephone}
             </a>
@@ -181,7 +181,7 @@ export default function MentionsLegales() {
               href={contact.googleBusinessUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-clair underline decoration-ambre decoration-2 underline-offset-4"
+              className="font-semibold text-clair underline decoration-action decoration-2 underline-offset-4"
             >
               la fiche Google de l&rsquo;entreprise
             </a>
