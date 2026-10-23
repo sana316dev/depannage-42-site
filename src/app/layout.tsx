@@ -12,7 +12,6 @@ import "./globals.css";
    routière sans charger de seconde famille. */
 const titre = Bricolage_Grotesque({
   subsets: ["latin"],
-  axes: ["wdth", "opsz"],
   variable: "--police-titre",
   display: "swap",
 });
