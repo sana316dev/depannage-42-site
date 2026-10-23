@@ -1,5 +1,6 @@
 import { contact, zone } from "@/content/site";
 import { BoutonAppel } from "./BoutonAppel";
+import { PlateauCharge } from "./PlateauCharge";
 
 /**
  * ZONE D'INTERVENTION
@@ -120,19 +121,23 @@ export function Zone() {
           </ul>
         </div>
 
-        <div className="revele arete relief relative mt-14 flex flex-col gap-5 overflow-hidden rounded-[var(--radius-bloc)] border border-trait/70 p-7 sm:flex-row sm:items-center sm:justify-between md:p-8">
-          <p className="max-w-[34rem] leading-relaxed text-doux">
-            Vous ne savez pas si vous êtes dans la zone ? Donnez votre
-            localisation au téléphone, la réponse est immédiate.
-          </p>
-          <BoutonAppel
-            emplacement="zone"
-            variante="principal"
-            libelle="Appeler"
-            afficherNumero={false}
-            className="shrink-0"
-          />
-        </div>
+        {/* Le rappel est « chargé sur le plateau » : l'encadré a la silhouette
+            du camion de l'entreprise. */}
+        <PlateauCharge className="revele mt-16">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="mesure leading-[1.6] text-doux">
+              Vous ne savez pas si vous êtes dans la zone ? Donnez votre
+              localisation au téléphone, la réponse est immédiate.
+            </p>
+            <BoutonAppel
+              emplacement="zone"
+              variante="principal"
+              libelle="Appeler"
+              afficherNumero={false}
+              className="shrink-0"
+            />
+          </div>
+        </PlateauCharge>
       </div>
     </section>
   );
